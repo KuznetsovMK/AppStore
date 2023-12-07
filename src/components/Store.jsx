@@ -4,12 +4,14 @@ import {Preloader} from "./Preloader";
 import {GoodsList} from "./GoodsList";
 import {Cart} from "./Cart";
 import {BasketList} from "./BasketList";
+import {Alert} from "./Alert";
 
 function Store() {
     const [goods, setGoods] = useState([]);
     const [loading, setLoading] = useState(true);
     const [order, setOrder] = useState([])
     const [isBasketShow, setBasketShow] = useState(false);
+    const [alertName, setAlert] = useState('');
 
     const addToBasket = item => {
         const itemIndex = order.findIndex(orderItem => orderItem.mainId === item.mainId);
@@ -34,10 +36,12 @@ function Store() {
 
             setOrder(newOrder);
         }
+
+        setAlert(item.displayName)
     };
 
     const removeFromBasket = itemId => {
-        const  newOrder = order.filter(el => el.mainId !== itemId);
+        const newOrder = order.filter(el => el.mainId !== itemId);
         setOrder(newOrder);
     }
 
@@ -74,6 +78,10 @@ function Store() {
         setBasketShow(!isBasketShow);
     }
 
+    const closeAlert = () => {
+        setAlert('');
+    }
+
     useEffect(function getGoods() {
         fetch(API_URL, {
             headers: {'Authorization': API_KEY}
@@ -96,6 +104,9 @@ function Store() {
                                             incQuantity={incQuantity}
                                             decQuantity={decQuantity}
                 />
+            }
+            {
+                alertName && <Alert name={alertName} closeAlert={closeAlert}/>
             }
         </main>
     );
