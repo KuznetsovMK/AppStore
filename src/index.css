@@ -86,3 +86,14 @@ nav {
 .basket-delete {
     cursor: pointer;
 }
+
+@keyframes show {
+    from {
+        top: 70%;
+        opacity: 0;
+    }
+    to {
+        top: 50%;
+        opacity: 1;
+    }
+}
